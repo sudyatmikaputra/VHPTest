@@ -1,0 +1,19 @@
+{
+  "name": "vhptest",
+  "version": "1.0.0",
+  "description": "VHP Web Development Test PT. Supranusa Sindata",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sudyatmikaputra/VHPTest.git"
+  },
+  "author": "Putra",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sudyatmikaputra/VHPTest/issues"
+  },
+  "homepage": "https://github.com/sudyatmikaputra/VHPTest#readme"
+}
