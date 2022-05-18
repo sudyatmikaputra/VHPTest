@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>VHP Web Development Test</title>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="./css/styles.css">
+    
+</head>
+<body>
+    <div class="wrapper">
+        <div class="sidebar">
+            <label for="datepicker">From Date</label><br>         
+            <input id="datepicker" width="200" placeholder="Please input date" /><br>
+
+            <label for="datepicker2">To Date</label><br>
+            <input id="datepicker2" width="200" placeholder="Please input date"/><br>
+
+            <label for="billnum">Bill Number</label><br>
+            <input class="billnum" type="text" id="billnum" style="width:200px" placeholder="Please input bill number"><br>
+
+            <button onclick="onClick()" class="btn btn-primary" type="submit">Search</button>
+        </div>
+        <div class="main_content">
+            <div class="container">
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Transaction Date</th>
+                            <th scope="col">Department</th>
+                            <th scope="col">Waiter Name</th>
+                            <th scope="col">Table Number</th>
+                            <th scope="col">Bill Number</th>
+                            <th scope="col">Guest Name</th>
+                            <th scope="col">Pax</th>
+                            <th scope="col">Total Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bodyTab" id="outletTable">
+                        <tr>
+                            <td class="emptyTab" colspan="8"><i class='fas fa-exclamation-circle' style='font-size:24px'></i><br>Set the filter value then press search</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function buildTable(data){
+            var tr, td, i, txtValue;;
+            var table = document.getElementById('outletTable');
+            var billNumber = document.getElementById("billnum").value;
+
+            simpData = data['response']['outletTransaction']['outlet-transaction'];
+            $('#outletTable').empty();
+
+            
+            if (billNumber === "") {
+                console.log("empty")
+                for (var i = 0; i < simpData.length; i++){
+                    var row = `<tr>
+                                    <td>${simpData[i]['trans-date']}</td>
+                                    <td>${simpData[i]['department']}</td>
+                                    <td>${simpData[i]['waiter-name']}</td>
+                                    <td>${simpData[i]['table-no']}</td>
+                                    <td>${simpData[i]['bill-no']}</td>
+                                    <td>${simpData[i]['guest-name']}</td>
+                                    <td>${simpData[i]['pax']}</td>
+                                    <td>${simpData[i]['total-amount']}</td>
+                              </tr>`
+                    table.innerHTML += row
+                }
+            } else {
+                for (var i = 0; i < simpData.length; i++){
+                    var row = `<tr>
+                                    <td>${simpData[i]['trans-date']}</td>
+                                    <td>${simpData[i]['department']}</td>
+                                    <td>${simpData[i]['waiter-name']}</td>
+                                    <td>${simpData[i]['table-no']}</td>
+                                    <td>${simpData[i]['bill-no']}</td>
+                                    <td>${simpData[i]['guest-name']}</td>
+                                    <td>${simpData[i]['pax']}</td>
+                                    <td>${simpData[i]['total-amount']}</td>
+                              </tr>`
+                    table.innerHTML += row
+                }
+                tr = table.getElementsByTagName("tr");
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[4];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.indexOf(billNumber) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }  
+        }
+
+        function onClick(){
+            var date1 = document.getElementById("datepicker").value;
+            var date2 = document.getElementById("datepicker2").value;
+
+
+            var url = "http://ws1.e1-vhp.com:8080/VHPWebBased1/rest/Common/testWebdev";
+            var data = `{
+                "request": {
+                    "fromDate": "${date1}",
+                    "toDate": "${date2}"
+                }
+            }`;
+            var xhr = new XMLHttpRequest();
+
+            xhr.open("POST", url);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+               if (xhr.readyState === 4) {
+                  var outletArr = JSON.parse(xhr.responseText);
+                  buildTable(outletArr);
+               }};
+            xhr.send(data);
+        }
+
+        $('#datepicker').datepicker({
+            dateFormat : 'mm/dd/yy',
+            uiLibrary: 'bootstrap4'
+        });
+        $('#datepicker2').datepicker({
+            dateFormat : 'mm/dd/yy',
+            uiLibrary: 'bootstrap4'
+        });
+    </script>
+    <script src="node_modules/jquery/dist/jquery.slim.min.js"></script>
+    <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

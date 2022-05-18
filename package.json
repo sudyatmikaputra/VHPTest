@@ -4,7 +4,9 @@
   "description": "VHP Web Development Test PT. Supranusa Sindata",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm run lite",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lite": "lite-server"
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,13 @@
   "bugs": {
     "url": "https://github.com/sudyatmikaputra/VHPTest/issues"
   },
-  "homepage": "https://github.com/sudyatmikaputra/VHPTest#readme"
+  "homepage": "https://github.com/sudyatmikaputra/VHPTest#readme",
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  },
+  "dependencies": {
+    "bootstrap": "^4.0.0",
+    "jquery": "^3.3.1",
+    "popper.js": "^1.12.9"
+  }
 }
