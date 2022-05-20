@@ -116,11 +116,11 @@
 
             var url = "http://ws1.e1-vhp.com:8080/VHPWebBased1/rest/Common/testWebdev";
             var data = `{
-                "request": {
-                    "fromDate": "${date1}",
-                    "toDate": "${date2}"
-                }
-            }`;
+                            "request": {
+                                "fromDate": "${date1}",
+                                "toDate": "${date2}"
+                            }
+                        }`;
             var xhr = new XMLHttpRequest();
 
             xhr.open("POST", url);
